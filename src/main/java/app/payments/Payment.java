@@ -15,7 +15,6 @@ public class Payment {
 
     public boolean processPayment() {
         if (paymentMethod.isValid()) {
-            // Implement logic to process the payment
             this.status = "Processed";
             return true;
         } else {

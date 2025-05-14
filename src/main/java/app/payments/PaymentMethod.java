@@ -10,7 +10,7 @@ public abstract class PaymentMethod {
     }
 
     public boolean isValid() {
-        // Implement validation logic for payment method
         return true;
+        
     }
 }
