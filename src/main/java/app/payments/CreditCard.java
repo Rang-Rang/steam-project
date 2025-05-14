@@ -11,7 +11,6 @@ public class CreditCard extends PaymentMethod{
     }
     
     public boolean charge(double amount) {
-        // Implement logic to charge the credit card
         return true;
     }
 }
