@@ -1,6 +1,6 @@
 package app.steam;
 
-public abstract class Game implements Playable{
+public class Game implements Playable{
     private String gameId, title;
     private double price;
     
