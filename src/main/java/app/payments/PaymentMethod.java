@@ -11,5 +11,6 @@ public abstract class PaymentMethod {
 
     public boolean isValid() {
         return true;
+        
     }
 }
