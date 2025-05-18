@@ -17,6 +17,20 @@ public class CreditCard extends PaymentMethod {
 
     @Override
     public boolean validate() {
-        return cardNumber != null && cardNumber.length() == 16 && expiryDate.matches("\\d{2}/\\d{2}");
+        if (cardNumber == null || cardNumber.length() != 16) return false;
+        for (char c : cardNumber.toCharArray()) {
+            if (!Character.isDigit(c)) return false;
+        }
+
+        if (expiryDate == null || expiryDate.length() != 5 || expiryDate.charAt(2) != '/') return false;
+        try {
+            int month = Integer.parseInt(expiryDate.substring(0, 2));
+            Integer.parseInt(expiryDate.substring(3)); // cek YY
+            if (month < 1 || month > 12) return false;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 }
