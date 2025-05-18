@@ -25,7 +25,7 @@ public class CreditCard extends PaymentMethod {
         if (expiryDate == null || expiryDate.length() != 5 || expiryDate.charAt(2) != '/') return false;
         try {
             int month = Integer.parseInt(expiryDate.substring(0, 2));
-            Integer.parseInt(expiryDate.substring(3)); // cek YY
+            Integer.parseInt(expiryDate.substring(3)); 
             if (month < 1 || month > 12) return false;
         } catch (NumberFormatException e) {
             return false;

@@ -10,6 +10,16 @@ public class Game implements Playable{
         this.price = price;
     }
 
+    public String getGameId() {
+        return gameId;
+    }
+
+
+
+    public double getPrice() {
+        return price;
+    }
+
     public void download(){
 
     }

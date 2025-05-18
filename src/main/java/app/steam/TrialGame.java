@@ -1,6 +1,6 @@
 package app.steam;
 
-public class TrialGame extends Game{
+public class TrialGame extends Game implements Playable{
     private int trialDuration;
 
     public TrialGame(String gameId, String title, double price, int trialDuration) {
@@ -9,7 +9,7 @@ public class TrialGame extends Game{
     }
 
     public void download(){
-
+        
     }
 
     public void play(){
