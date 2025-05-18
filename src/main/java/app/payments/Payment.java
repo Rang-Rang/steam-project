@@ -9,7 +9,7 @@ public class Payment {
     private String status;
     private PaymentMethod paymentMethod;
     private ArrayList<Game> purchasedGames = new ArrayList<Game>();
-
+    //variabel static buat id
     private static int paymentCounter = 1;
 
     public Payment(double amount, PaymentMethod paymentMethod, ArrayList<Game> purchasedGames) {
