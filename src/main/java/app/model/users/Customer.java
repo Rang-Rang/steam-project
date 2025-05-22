@@ -15,6 +15,10 @@ public class Customer extends User implements RefundRequester{
 		this.library = library;
 		this.cart = cart;
 	}
+
+	public Customer(String userId, String name, String email, String password){
+		super(userId, name, email, password);
+	}
 	
 	public void buyGame(Game game) {
 		
