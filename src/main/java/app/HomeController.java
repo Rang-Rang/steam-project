@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import app.model.users.*;
+import app.model.users.Customer;
+import app.model.users.SupportStaff;
+import app.model.users.User;
 
 @Controller
 public class HomeController {
@@ -16,7 +18,7 @@ public class HomeController {
 	
 	public HomeController() {
 		users = new ArrayList<>();
-		users.add(new RegularUser("001", "fadd", "fadd@gmail.com", "rit"));
+		users.add(new Customer("001", "faddd", "fdhl.ahmd.com", "rit"));
 		users.add(new SupportStaff("000", "mimin", "mimin@gmail.com", "abcd"));
 		
 	}
