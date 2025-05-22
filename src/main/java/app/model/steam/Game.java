@@ -14,8 +14,6 @@ public class Game implements Playable{
         return gameId;
     }
 
-
-
     public double getPrice() {
         return price;
     }
