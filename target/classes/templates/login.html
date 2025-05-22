@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#202c4c] flex items-center justify-end min-h-screen overflow-y-auto">
+    <video loop autoplay muted class="fixed w-full h-full object-cover -z-10 scale-x-[-1]">
+      <source src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/2855140/e2a8428a48f49312a3fe5c45206b998af76910e8.mp4" type="video/mp4">
+    </video>
+    <div class="bg-[#202c4c] bg-opacity-90 w-80 min-h-screen text-white">
+
+      <div class="w-full max-w-sm p-8">
+      <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
+      
+      <form action="/login-action" method="POST" class="space-y-5">
+        
+        <div>
+          <label for="input" class="block text-sm font-medium">Email atau Nama</label>
+          <input type="text" name="input" id="input" placeholder="Email atau Nama"
+            class="w-full px-4 py-2  border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black" required />
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium">Password</label>
+          <input type="password" name="password" id="password" placeholder="Password"
+            class="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black" required />
+        </div>
+        
+        <button type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md font-semibold transition">
+          Login
+        </button>
+      </form>
+    </div>
+    </div>
+  </body>
+</html>
