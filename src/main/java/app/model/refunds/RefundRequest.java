@@ -1,6 +1,6 @@
 package app.model.refunds;
 
-import app.steam.Game;
+import app.model.steam.Game;
 
 public class RefundRequest {
     private String requestId;
