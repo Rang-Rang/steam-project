@@ -1,7 +1,12 @@
 package app.model.steam;
 
+<<<<<<< HEAD
+import app.model.payments.*;
+import app.model.users.*;
+=======
 import app.model.users.*;
 import app.model.payments.*;
+>>>>>>> e49aaed2b324de8c84e3f814f46d89b70000db61
 
 public class Transaction {
     private String transactionId;
@@ -16,6 +21,11 @@ public class Transaction {
         this.payment = payment;
     }
 
+<<<<<<< HEAD
+    public String generateReceipt(){
+        return "";
+    }   
+=======
     public String getTransactionId() {
         return transactionId;
     }
@@ -31,5 +41,6 @@ public class Transaction {
     public Payment getPayment() {
         return payment;
     }
+>>>>>>> e49aaed2b324de8c84e3f814f46d89b70000db61
 }
 
