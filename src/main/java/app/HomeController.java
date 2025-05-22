@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import app.model.steam.Library;
 import app.model.users.Customer;
 import app.model.users.SupportStaff;
 import app.model.users.User;
@@ -57,4 +58,9 @@ public class HomeController {
         return "support"; 
     }
 
+	@GetMapping("/library")
+    public String library(Library lib) {
+
+        return "library"; 
+    }
 }

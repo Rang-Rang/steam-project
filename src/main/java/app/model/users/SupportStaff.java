@@ -12,7 +12,6 @@ public class SupportStaff extends User implements RefundProcessor {
 
 	@Override
 	public boolean evaluateRefund(RefundRequester request) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
