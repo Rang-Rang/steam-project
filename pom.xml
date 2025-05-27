@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>tugas</name>
-    <description>Proyek Java biasa tanpa Spring</description>
+    <description>Proyek Java</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,18 +18,16 @@
     </properties>
 
     <dependencies>
-        <!-- Tambahkan dependency lain jika dibutuhkan -->
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Plugin untuk menjalankan main class -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>com.yourpackage.MainApp</mainClass> <!-- Ganti dengan class utama kamu -->
+                    <mainClass>app.model.steam.App</mainClass>
                 </configuration>
             </plugin>
         </plugins>
