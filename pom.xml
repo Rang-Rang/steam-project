@@ -9,56 +9,28 @@
     <packaging>jar</packaging>
 
     <name>tugas</name>
-    <description>Proyek Spring Boot sederhana</description>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version> <!-- Versi terbaru -->
-        <relativePath/> <!-- agar ambil konfigurasi default dari Spring Boot -->
-    </parent>
+    <description>Proyek Java biasa tanpa Spring</description>
 
     <properties>
-        <java.version>17</java.version> <!-- pastikan cocok dengan JDK kamu -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <!-- Untuk aplikasi web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- Untuk Thymeleaf (template HTML) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <!-- Untuk testing (opsional) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-devtools</artifactId>
-    		<optional>true</optional>
-		</dependency>
+        <!-- Tambahkan dependency lain jika dibutuhkan -->
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Plugin untuk menjalankan main class -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>com.yourpackage.MainApp</mainClass> <!-- Ganti dengan class utama kamu -->
+                </configuration>
             </plugin>
         </plugins>
     </build>
