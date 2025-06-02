@@ -73,7 +73,7 @@ public void start(Stage primaryStage) {
             msgLabel.setText("");
             primaryStage.close();
             try {
-                new LibraryGUI().start(new Stage()); // Ganti jika nama class berbeda
+                new StoreGUI().start(new Stage()); // Ganti jika nama class berbeda
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
