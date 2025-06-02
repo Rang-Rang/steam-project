@@ -1,35 +1,30 @@
 package app.resource;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
-
 import app.model.steam.Game;
 import app.model.steam.Library;
 import app.model.steam.TrialGame;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class LibraryGUI extends Application{
+public class LibraryGUI {
     private Library gameLib;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage stage) {
         gameLib = new Library();
         gameLib.addGame(new Game("gm01", "God Of War", 659000));
         gameLib.addGame(new Game("gm02", "Ghost Of Tsushima", 869000));
         gameLib.addGame(new Game("gm03", "Spider-man", 859000));
-        gameLib.addGame(new Game("gm02", "Clair Obscur: Expedition 33", 499000));
+        gameLib.addGame(new Game("gm04", "Clair Obscur: Expedition 33", 499000));
         
         VBox root = new VBox(10);
         root.setPadding(new Insets(15));
 
-        
         Label title = new Label("Game Library");
         title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         root.getChildren().add(title);
@@ -94,9 +89,6 @@ public class LibraryGUI extends Application{
 
                         exitGameBtn.setOnAction(ev -> gameStage.close());
 
-                        gameStage.setOnCloseRequest(ev -> {
-                        });
-
                         gameRoot.getChildren().addAll(playingLabel, exitGameBtn);
 
                         Scene gameScene = new Scene(gameRoot, 300, 150);
@@ -108,12 +100,10 @@ public class LibraryGUI extends Application{
                 }
             });
         }
-        
+
         Scene scene = new Scene(root, 500, 400);
-        primaryStage.setTitle("Game Library GUI");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setTitle("Game Library GUI");
+        stage.setScene(scene);
+        stage.show();
     }
-    
-    
 }

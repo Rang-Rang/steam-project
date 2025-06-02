@@ -32,6 +32,12 @@ public class Store extends Application{
         Label profileLabel = new Label("orang hitam legam");
         Button logoutBtn = new Button("Logout");
 
+        libraryBtn.setOnAction(e -> {
+            Stage libraryStage = new Stage();
+            LibraryGUI libraryGUI = new LibraryGUI();
+            libraryGUI.start(libraryStage);
+        });
+
         styleNavButton(cartBtn);
         styleNavButton(libraryBtn);
         styleNavLabel(profileLabel);
