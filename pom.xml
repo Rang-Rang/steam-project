@@ -50,7 +50,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>app.resource.Store</mainClass>
+                    <mainClass>app.resource.LoginGUI</mainClass>
                 </configuration>
             </plugin>
 
