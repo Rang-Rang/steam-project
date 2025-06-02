@@ -18,6 +18,10 @@ public class Game implements Playable{
         return price;
     }
 
+    public String getTitle(){
+        return title;
+    }
+
     public void download(){
 
     }

@@ -3,7 +3,11 @@ package app.model.steam;
 import java.util.*;
 
 public class Library {
-    ArrayList<Game> ownedGames = new ArrayList<Game>();
+    ArrayList<Game> ownedGames;
+
+    public Library() {
+        ownedGames = new ArrayList<Game>();
+    }
 
     public void addGame(Game game){
         if(isOwned(game)){
@@ -32,7 +36,7 @@ public class Library {
         return false;
     }
 
-    public void displayLibrary(){
-        
+    public ArrayList<Game> displayLibrary(){
+        return ownedGames;
     }
 }
