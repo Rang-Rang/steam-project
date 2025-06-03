@@ -17,10 +17,6 @@ public abstract class User {
 	public boolean isLoginMatch(String input, String inputPassword) {
 	    return (this.name.equals(input) || this.email.equals(input)) && this.password.equals(inputPassword);
 	}
-    
-    public void logout() {
-    	
-    }
 
 	public String getUserId() {
 		return userId;

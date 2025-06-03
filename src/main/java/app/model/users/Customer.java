@@ -1,38 +1,72 @@
 package app.model.users;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import app.model.refunds.Refund;
 import app.model.refunds.RefundRequester;
 import app.model.steam.Game;
 
-public class Customer extends User implements RefundRequester{
-    ArrayList<Game> library;
-	ArrayList<Game> cart;
-	
-	public Customer(String userId, String name, String email, String password, ArrayList<Game> library,
-			ArrayList<Game> cart) {
-		super(userId, name, email, password);
-		this.library = library;
-		this.cart = cart;
-	}
+public class Customer extends User implements RefundRequester {
+    private List<Game> library;
+    private List<Game> cart;
+    private List<Refund> refundRequests = new ArrayList<>();
 
-	public Customer(String userId, String name, String email, String password){
-		super(userId, name, email, password);
-	}
-	
-	public void buyGame(Game game) {
-		
-	}
-	
-	public void requestRefund(Game game) {
-		
-	}
+    private static List<Customer> allCustomers = new ArrayList<>();
 
-	public ArrayList<Game> getLibrary() {
-		return library;
-	}
+    public Customer(String userId, String name, String email, String password, List<Game> library, List<Game> cart) {
+        super(userId, name, email, password);
+        this.library = library;
+        this.cart = cart;
+        allCustomers.add(this);
+    }
 
-	public ArrayList<Game> getCart() {
-		return cart;
-	}
+    public void addRefundRequest(Game game, String reason) {
+        boolean alreadyRequested = refundRequests.stream()
+                .anyMatch(r -> r.getGame().equals(game) && !r.isApproved());
+
+        if (!alreadyRequested) {
+            Refund refund = new Refund(game, this.getUserId(), this.getName(), reason);
+            refundRequests.add(refund);
+        }
+    }
+
+    public void removeRefundRequest(Refund refund) {
+        refundRequests.remove(refund);
+    }
+
+    public List<Refund> getRefundRequests() {
+        return refundRequests;
+    }
+
+    // ✅ Revisi di sini
+    public void removeFromLibrary(Game game) {
+        library.removeIf(g -> g.getGameId().equals(game.getGameId()));
+    }
+
+    public List<Game> getLibrary() {
+        return library;
+    }
+
+    @Override
+    public void requestRefund(Game game, String reason) {
+        addRefundRequest(game, reason);
+    }
+
+    public List<Game> getCart() {
+        return cart;
+    }
+
+    public static List<Customer> getAllCustomers() {
+        return allCustomers;
+    }
+    public static Customer getCustomerById(String id) {
+    for (Customer c : allCustomers) {
+        if (c.getUserId().equals(id)) {
+            return c;
+        }
+    }
+    return null;
+}
+
 }

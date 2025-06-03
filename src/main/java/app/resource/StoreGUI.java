@@ -1,5 +1,10 @@
 package app.resource;
 
+import java.net.URL;
+import java.util.ArrayList;
+
+import app.model.steam.Game;
+import app.model.users.Customer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,116 +22,161 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class StoreGUI extends Application {
-@Override
-public void start(Stage primaryStage) {
-BorderPane root = new BorderPane();
+    private static BorderPane root;
+    private static Customer currentCustomer;
 
-            // NAVBAR
-    HBox navbar = new HBox(20);
-    navbar.setPadding(new Insets(10));
-    navbar.setStyle("-fx-background-color: #1b2838;");
-    navbar.setAlignment(Pos.CENTER_LEFT);
+    public static Customer getCurrentCustomer() {
+        return currentCustomer;
+    }
 
-    Button cartBtn = new Button("Cart");
-    Button libraryBtn = new Button("Library");
-    Label profileLabel = new Label("orang hitam legam");
-    Button logoutBtn = new Button("Logout");
+    @Override
+    public void start(Stage primaryStage) {
+        root = new BorderPane();
 
-    styleNavButton(cartBtn);
-    styleNavButton(libraryBtn);
-    styleNavLabel(profileLabel);
-    styleNavButton(logoutBtn);
-
-    Region spacer = new Region();
-    HBox.setHgrow(spacer, Priority.ALWAYS);
-    navbar.getChildren().addAll(cartBtn, libraryBtn, spacer, profileLabel, logoutBtn);
-    root.setTop(navbar);
-
-    // SCROLL CONTENT
-    VBox scrollContent = new VBox(20);
-    scrollContent.setPadding(new Insets(0));
-    scrollContent.setStyle("-fx-background-color: #171a21;");
-
-    // BANNER
-    ImageView banner = new ImageView(new Image(getClass().getResource("/images/banner.png").toExternalForm()));
-    banner.setPreserveRatio(true);
-    banner.setFitWidth(1000); // default
-    // Responsif: Bind lebar banner ke lebar scrollContent dikurangi padding
-    banner.fitWidthProperty().bind(scrollContent.widthProperty().subtract(40));
-
-    scrollContent.getChildren().add(banner);
-
-    // GAME LIST
-    VBox gameList = new VBox(15);
-    gameList.setPadding(new Insets(20));
-    gameList.setAlignment(Pos.TOP_LEFT);
-    gameList.setMaxWidth(1000);
-
-    gameList.getChildren().addAll(
-        createGameItem("God of War", "/images/godofwar.png", "Rp659.000"),
-        createGameItem("Ghost of Tsushima", "/images/tsushima.png", "Rp869.000"),
-        createGameItem("Spider-Man Remastered", "/images/spiderman.png", "Rp859.000"),
-        createGameItem("Clair Obscur: Expedition 33", "/images/expedition33.png", "Rp499.000")
-    );
-
-    scrollContent.getChildren().add(gameList);
-
-    ScrollPane scrollPane = new ScrollPane(scrollContent);
-    scrollPane.setFitToWidth(true);
-    scrollPane.setStyle("-fx-background: #171a21;");
-
-    root.setCenter(scrollPane);
-
-    Scene scene = new Scene(root, 1000, 700);
-    primaryStage.setTitle("Steam Store");
-    primaryStage.setScene(scene);
-    primaryStage.show();
+        // Dummy customer untuk testing
+        currentCustomer = Customer.getCustomerById("C001");
+if (currentCustomer == null) {
+    currentCustomer = new Customer("C001", "orang hitam legam", "test@email.com", "1234", new ArrayList<>(), new ArrayList<>());
 }
 
-private HBox createGameItem(String title, String imagePath, String price) {
-    HBox box = new HBox(15);
-    box.setAlignment(Pos.CENTER_LEFT);
-    box.setPadding(new Insets(10));
-    box.setStyle("-fx-background-color: #1b2838; -fx-background-radius: 8;");
-    box.setMaxWidth(Double.MAX_VALUE);
 
-    ImageView image = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
-    image.setFitHeight(140);
-    image.setPreserveRatio(true);
-    image.setSmooth(true);
+        buildNavbar(primaryStage);
+        showStoreContent();
 
-    VBox info = new VBox(5);
-    Label titleLabel = new Label(title);
-    titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
-    Label priceLabel = new Label(price);
-    priceLabel.setStyle("-fx-text-fill: lightgray;");
+        Scene scene = new Scene(root, 1000, 700);
+        primaryStage.setTitle("Steam Store");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-    Button addToCartBtn = new Button("Add to Cart");
-    addToCartBtn.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white;");
-    addToCartBtn.setOnMouseEntered(e -> addToCartBtn.setStyle("-fx-background-color: #66c0f4; -fx-text-fill: black;"));
-    addToCartBtn.setOnMouseExited(e -> addToCartBtn.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white;"));
+    private void buildNavbar(Stage stage) {
+        HBox navbar = new HBox(20);
+        navbar.setPadding(new Insets(10));
+        navbar.setStyle("-fx-background-color: #1b2838;");
+        navbar.setAlignment(Pos.CENTER_LEFT);
 
-    info.getChildren().addAll(titleLabel, priceLabel, addToCartBtn);
+        Label profileLabel = new Label(currentCustomer.getName());
+        styleNavLabel(profileLabel);
 
-    Region spacer = new Region();
-    HBox.setHgrow(spacer, Priority.ALWAYS);
+        Button cartBtn = new Button("Cart");
+        Button libBtn = new Button("Library");
+        Button logoutBtn = new Button("Logout");
 
-    box.getChildren().addAll(image, info, spacer);
-    return box;
-}
+        styleNavButton(cartBtn);
+        styleNavButton(libBtn);
+        styleNavButton(logoutBtn);
 
-private void styleNavButton(Button button) {
-    button.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;");
-    button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white; -fx-font-size: 14px;"));
-    button.setOnMouseExited(e -> button.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;"));
-}
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-private void styleNavLabel(Label label) {
-    label.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
-}
+        navbar.getChildren().addAll(profileLabel, spacer, cartBtn, libBtn, logoutBtn);
+        root.setTop(navbar);
 
-public static void main(String[] args) {
-    launch(args);
-}
+        cartBtn.setOnAction(e -> CartGUI.showCartPage(currentCustomer, stage));
 
+        libBtn.setOnAction(e -> {
+            try {
+                LibraryGUI.showLibrary(currentCustomer, stage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        logoutBtn.setOnAction(e -> {
+    Scene loginScene = new Scene(LoginGUI.getRoot(stage), 400, 350);
+    stage.setScene(loginScene);
+});
+
+    }
+
+    private void showStoreContent() {
+        VBox scrollContent = new VBox(20);
+        scrollContent.setStyle("-fx-background-color: #171a21;");
+
+        URL bannerURL = getClass().getClassLoader().getResource("images/banner.png");
+        if (bannerURL != null) {
+            Image bannerImg = new Image(bannerURL.toExternalForm());
+            ImageView banner = new ImageView(bannerImg);
+            banner.setPreserveRatio(true);
+            banner.setFitWidth(1000);
+            banner.fitWidthProperty().bind(scrollContent.widthProperty().subtract(40));
+            scrollContent.getChildren().add(banner);
+        }
+
+        VBox gameList = new VBox(15);
+        gameList.setPadding(new Insets(20));
+        gameList.setAlignment(Pos.TOP_CENTER);
+        gameList.setMaxWidth(1000);
+
+        for (Game game : Game.getAvailableGames()) {
+            gameList.getChildren().add(createGameItem(game));
+        }
+
+        scrollContent.getChildren().add(gameList);
+
+        ScrollPane scrollPane = new ScrollPane(scrollContent);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background: #171a21;");
+        root.setCenter(scrollPane);
+    }
+
+    private HBox createGameItem(Game game) {
+        HBox box = new HBox(15);
+        box.setAlignment(Pos.CENTER_LEFT);
+        box.setPadding(new Insets(10));
+        box.setStyle("-fx-background-color: #1b2838; -fx-background-radius: 8;");
+
+        Image image = new Image(getClass().getClassLoader().getResource(game.getImagePath()).toExternalForm());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(140);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+
+        VBox info = new VBox(5);
+        Label titleLabel = new Label(game.getTitle());
+        titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+        Label priceLabel = new Label(String.format("Rp%,.0f", game.getPrice()));
+        priceLabel.setStyle("-fx-text-fill: lightgray;");
+
+        Button detailBtn = new Button("Detail Game");
+        detailBtn.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white;");
+        detailBtn.setOnMouseEntered(e -> detailBtn.setStyle("-fx-background-color: #66c0f4; -fx-text-fill: black;"));
+        detailBtn.setOnMouseExited(e -> detailBtn.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white;"));
+
+        detailBtn.setOnAction(e -> GameDetailGUI.showDetailWindow(game, currentCustomer, (Stage) root.getScene().getWindow()));
+
+        info.getChildren().addAll(titleLabel, priceLabel, detailBtn);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        box.getChildren().addAll(imageView, info, spacer);
+        return box;
+    }
+
+    private void styleNavButton(Button button) {
+        button.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;");
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white; -fx-font-size: 14px;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;"));
+    }
+
+    private void styleNavLabel(Label label) {
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+    }
+
+    public static BorderPane getRoot() {
+        return root;
+    }
+
+    public static void showStore(Stage stage) {
+        try {
+            new StoreGUI().start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
