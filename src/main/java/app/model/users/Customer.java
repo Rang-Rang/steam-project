@@ -11,11 +11,9 @@ public class Customer extends User implements RefundRequester {
 private List<Game> library;
 private List<Game> cart;
 private List<Refund> refundRequests = new ArrayList<>();
-
 private static List<Customer> allCustomers = new ArrayList<>();
 
-public Customer(String userId, String name, String email, String password,
-                List<Game> library, List<Game> cart) {
+public Customer(String userId, String name, String email, String password,List<Game> library, List<Game> cart) {
     super(userId, name, email, password);
     this.library = library;
     this.cart = cart;
