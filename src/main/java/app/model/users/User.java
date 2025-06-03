@@ -5,29 +5,27 @@ public abstract class User {
     private String name;
     private String email;
     private String password;
-	
-	public User(String userId, String name, String email, String password) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-	}
 
-	public boolean isLoginMatch(String input, String inputPassword) {
-	    return (this.name.equals(input) || this.email.equals(input)) && this.password.equals(inputPassword);
-	}
+    public User(String userId, String name, String email, String password) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public boolean isLoginMatch(String input, String inputPassword) {
+        return (this.name.equals(input) || this.email.equals(input)) && this.password.equals(inputPassword);
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getEmail() {
-		return email;
-	}
-    
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
