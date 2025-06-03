@@ -8,15 +8,15 @@ public class TrialGame extends Game implements Playable{
         this.trialDuration = trialDuration;
     }
 
-    public void download(){
-        
+    public String download(){
+        return "Downloading Trial " + getTitle() + "...";
     }
 
-    public void play(){
-
+    public String play(){
+        return "Playing " + getTitle();
     }
 
-    public void exit(){
-
+    public String exit(){
+        return "Exiting Game Trial";
     }    
 }

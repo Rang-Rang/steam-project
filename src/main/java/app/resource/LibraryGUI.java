@@ -13,6 +13,7 @@ import app.model.steam.TrialGame;
 
 public class LibraryGUI extends Application{
     private Library gameLib;
+    private Game game;
 
     public static void main(String[] args) {
         launch(args);
@@ -55,7 +56,7 @@ public class LibraryGUI extends Application{
                         VBox downloadRoot = new VBox(15);
                         downloadRoot.setPadding(new Insets(20));
                         
-                        Label downloadingLabel = new Label("Downloading " + game.getTitle() + "...");
+                        Label downloadingLabel = new Label(game.download());
                         ProgressBar progressBar = new ProgressBar(0);
                         
                         javafx.animation.Timeline timeline = new javafx.animation.Timeline(
@@ -89,7 +90,7 @@ public class LibraryGUI extends Application{
                         VBox gameRoot = new VBox(15);
                         gameRoot.setPadding(new Insets(20));
 
-                        Label playingLabel = new Label("Playing " + game.getTitle());
+                        Label playingLabel = new Label(game.play());
                         Button exitGameBtn = new Button("Exit");
 
                         exitGameBtn.setOnAction(ev -> gameStage.close());

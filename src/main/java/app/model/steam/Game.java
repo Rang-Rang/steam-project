@@ -1,5 +1,6 @@
 package app.model.steam;
 
+
 public class Game implements Playable{
     private String gameId, title;
     private double price;
@@ -22,16 +23,16 @@ public class Game implements Playable{
         return title;
     }
 
-    public void download(){
-
+    public String download(){
+        return "Downloading " + getTitle() + "...";
     }
 
-    public void play(){
-
+    public String play(){
+        return "Playing " + getTitle();
     }
 
-    public void exit(){
-
+    public String exit(){
+        return "Exiting Game ";
     }
 
     public String getDetail(){
