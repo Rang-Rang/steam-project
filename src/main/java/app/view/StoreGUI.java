@@ -1,4 +1,4 @@
-package app.resource;
+package app.view;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,13 +32,11 @@ public class StoreGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         root = new BorderPane();
-
-        // Dummy customer untuk testing
         currentCustomer = Customer.getCustomerById("C001");
-if (currentCustomer == null) {
-    currentCustomer = new Customer("C001", "orang hitam legam", "test@email.com", "1234", new ArrayList<>(), new ArrayList<>());
-}
 
+        if (currentCustomer == null) {
+            currentCustomer = new Customer("C001", "orang hitam legam", "test@email.com", "1234", new ArrayList<>(), new ArrayList<>());
+        }
 
         buildNavbar(primaryStage);
         showStoreContent();
@@ -83,10 +81,9 @@ if (currentCustomer == null) {
         });
 
         logoutBtn.setOnAction(e -> {
-    Scene loginScene = new Scene(LoginGUI.getRoot(stage), 400, 350);
-    stage.setScene(loginScene);
-});
-
+            Scene loginScene = new Scene(LoginGUI.getRoot(stage), 400, 350);
+            stage.setScene(loginScene);
+        });
     }
 
     private void showStoreContent() {

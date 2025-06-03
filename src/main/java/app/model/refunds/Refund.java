@@ -47,12 +47,12 @@ public class Refund {
 
     private boolean rejected = false;
 
-public boolean isRejected() {
-    return rejected;
-}
+    public boolean isRejected() {
+        return rejected;
+    }
 
-public void setRejected(boolean rejected) {
-    this.rejected = rejected;
-}
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
+    }
 
 }

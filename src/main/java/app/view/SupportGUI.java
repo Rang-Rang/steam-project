@@ -1,4 +1,4 @@
-package app.resource;
+package app.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,6 @@ public class SupportGUI {
     public static void showSupportDashboard(Stage stage) {
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1b2838;");
-
         // ==== NAVBAR START ====
         HBox navbar = new HBox(20);
         navbar.setPadding(new Insets(10));
@@ -86,13 +85,11 @@ public class SupportGUI {
 
                 infoBox.getChildren().addAll(userLabel, gameLabel, reasonLabel);
 
-                // Approve Button
                 Button approveBtn = new Button("Approve");
                 approveBtn.setStyle("-fx-background-color: #66c0f4; -fx-text-fill: black;");
                 approveBtn.setOnAction(e -> {
                     refund.setApproved(true);
                     customer.removeFromLibrary(game);
-                    // Jangan hapus refund; biarkan tetap tercatat
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Refund Approved");
                     alert.setHeaderText(null);
@@ -101,12 +98,10 @@ public class SupportGUI {
                     showSupportDashboard(stage);
                 });
 
-                // Reject Button
                 Button rejectBtn = new Button("Reject");
                 rejectBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
                 rejectBtn.setOnAction(e -> {
                     refund.setRejected(true);
-                    // Jangan remove refund untuk histori
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Refund Rejected");
                     alert.setHeaderText(null);

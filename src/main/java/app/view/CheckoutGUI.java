@@ -1,9 +1,11 @@
-package app.resource;
+package app.view;
 
 import app.model.steam.Game;
+import app.model.steam.Transaction;
 import app.model.users.Customer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -54,24 +56,44 @@ public class CheckoutGUI {
             gameList.getChildren().add(gameItem);
         }
 
-        Button confirmBtn = new Button("Confirm Purchase");
-        confirmBtn.setStyle("-fx-background-color: #5c7e10; -fx-text-fill: white; -fx-font-size: 16px;");
-        confirmBtn.setOnAction(e -> {
-            // Tambah semua game dari cart ke library
+        Button payButton = new Button("Bayar Sekarang");
+        payButton.setStyle("-fx-background-color: #5c7e10; -fx-text-fill: white; -fx-font-size: 14px;");
+        payButton.setOnAction(e -> {
+        double totalAmount = 0;
+        for (Game game : customer.getCart()) {
+            totalAmount += game.getPrice();
+        }
+
+        boolean success = PaymentPopup.showPaymentDialog(customer, totalAmount);
+        if (success) {
             for (Game game : customer.getCart()) {
-                if (!customer.getLibrary().contains(game)) {
-                    customer.getLibrary().add(game);
-                }
+                customer.getLibrary().add(game);
+                Transaction trx = new Transaction("TX" + System.currentTimeMillis(), game, customer, null);
             }
+
             customer.getCart().clear();
-            LibraryGUI.showLibrary(customer, stage);
+
+            Alert done = new Alert(Alert.AlertType.INFORMATION);
+            done.setTitle("Berhasil");
+            done.setHeaderText(null);
+            done.setContentText("Pembayaran berhasil. Game telah masuk library.");
+            done.showAndWait();
+
+            stage.getScene().setRoot(StoreGUI.getRoot());
+        } else {
+            Alert fail = new Alert(Alert.AlertType.ERROR);
+            fail.setTitle("Gagal");
+            fail.setHeaderText(null);
+            fail.setContentText("Pembayaran gagal. Periksa kembali data kartu.");
+            fail.showAndWait();
+        }
         });
 
         Button backBtn = new Button("← Back to Cart");
         backBtn.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white;");
         backBtn.setOnAction(e -> CartGUI.showCartPage(customer, stage));
 
-        layout.getChildren().addAll(title, gameList, confirmBtn, backBtn);
+        layout.getChildren().addAll(title, gameList, payButton, backBtn);
 
         ScrollPane scrollPane = new ScrollPane(layout);
         scrollPane.setFitToWidth(true);

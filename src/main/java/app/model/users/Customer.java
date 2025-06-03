@@ -14,18 +14,17 @@ private List<Refund> refundRequests = new ArrayList<>();
 
 private static List<Customer> allCustomers = new ArrayList<>();
 
-// Constructor
-public Customer(String userId, String name, String email, String password, List<Game> library, List<Game> cart) {
+public Customer(String userId, String name, String email, String password,
+                List<Game> library, List<Game> cart) {
     super(userId, name, email, password);
     this.library = library;
     this.cart = cart;
     allCustomers.add(this);
 }
 
-// Tambah permintaan refund jika belum ada yang aktif
 public void addRefundRequest(Game game, String reason) {
     boolean alreadyRequested = refundRequests.stream()
-            .anyMatch(r -> r.getGame().equals(game) && !r.isApproved());
+            .anyMatch(r -> r.getGame().equals(game) && !r.isApproved() && !r.isRejected());
 
     if (!alreadyRequested) {
         Refund refund = new Refund(game, this.getUserId(), this.getName(), reason);
@@ -41,7 +40,6 @@ public List<Refund> getRefundRequests() {
     return refundRequests;
 }
 
-// Hapus game dari library berdasarkan ID
 public void removeFromLibrary(Game game) {
     library.removeIf(g -> g.getGameId().equals(game.getGameId()));
 }
@@ -50,13 +48,13 @@ public List<Game> getLibrary() {
     return library;
 }
 
-public List<Game> getCart() {
-    return cart;
-}
-
 @Override
 public void requestRefund(Game game, String reason) {
     addRefundRequest(game, reason);
+}
+
+public List<Game> getCart() {
+    return cart;
 }
 
 public static List<Customer> getAllCustomers() {
@@ -72,7 +70,6 @@ public static Customer getCustomerById(String id) {
     return null;
 }
 
-// Login verifikasi dengan nama/email + password
 public static Customer findByCredential(String nameOrEmail, String pass) {
     for (Customer c : allCustomers) {
         if (c.isLoginMatch(nameOrEmail, pass)) {
@@ -82,13 +79,15 @@ public static Customer findByCredential(String nameOrEmail, String pass) {
     return null;
 }
 
-// Dummy user untuk login ke store
 static {
     allCustomers.add(new Customer(
-            "C001", "user", "user@email.com", "123",
-            new ArrayList<>(), new ArrayList<>()
+        "C001",
+        "user",
+        "user@email.com",
+        "123",
+        new ArrayList<>(),
+        new ArrayList<>()
     ));
 }
-
 
 }

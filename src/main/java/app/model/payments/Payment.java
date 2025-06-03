@@ -9,7 +9,7 @@ public class Payment {
     private double amount;
     private String status;
     private PaymentMethod paymentMethod;
-    private ArrayList<Game> purchasedGames = new ArrayList<Game>();
+    private ArrayList<Game> purchasedGames = new ArrayList<>();
     private static int paymentCounter = 1;
 
     public Payment(double amount, PaymentMethod paymentMethod, ArrayList<Game> purchasedGames) {
@@ -19,32 +19,43 @@ public class Payment {
         this.status = "PENDING";
         this.purchasedGames = purchasedGames;
     }
-
+    
     public boolean process() {
+        if (paymentMethod == null) {
+            status = "FAILED";
+            return false;
+        }
+    
+        System.out.println("Processing payment with method: " + paymentMethod.getType());
+    
         if (paymentMethod.validate()) {
             if (paymentMethod instanceof CreditCard) {
                 boolean success = ((CreditCard) paymentMethod).charge(amount);
                 status = success ? "SUCCESS" : "FAILED";
                 return success;
+            } else {
+                status = "SUCCESS";
+                return true;
             }
         }
+    
         status = "FAILED";
         return false;
     }
-
+    
     public String getStatus() {
         return status;
     }
-
+    
     public double getAmount() {
         return amount;
     }
-
+    
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
-
+    
     private String generatePaymentId() {
-        return String.format("PAY%03d", paymentCounter++); 
+        return String.format("PAY%03d", paymentCounter++);
     }
 }
