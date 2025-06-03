@@ -1,4 +1,4 @@
-package app.resource;
+package app.view;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class StoreGUI extends Application {
         if (currentCustomer == null) {
             currentCustomer = new Customer("C001", "orang hitam legam", "test@email.com", "1234", new ArrayList<>(), new ArrayList<>());
         }
-        
+
         buildNavbar(primaryStage);
         showStoreContent();
 

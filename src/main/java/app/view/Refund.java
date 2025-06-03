@@ -1,4 +1,4 @@
-package app.resource;
+package app.view;
 
 public class Refund {
     

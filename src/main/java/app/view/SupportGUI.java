@@ -1,4 +1,4 @@
-package app.resource;
+package app.view;
 
 import java.util.ArrayList;
 import java.util.List;

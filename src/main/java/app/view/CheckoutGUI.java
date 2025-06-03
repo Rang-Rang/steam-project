@@ -1,4 +1,4 @@
-package app.resource;
+package app.view;
 
 import app.model.steam.Game;
 import app.model.steam.Transaction;
