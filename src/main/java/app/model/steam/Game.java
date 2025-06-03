@@ -50,18 +50,18 @@ public static ArrayList<Game> getAvailableGames() {
 }
 
 @Override
-public void download() {
-    // Logic download
+public String download() {
+    return "Downloading " + getTitle() + "...";
 }
 
 @Override
-public void play() {
-    // Logic play
+public String play() {
+    return "Playing " + getTitle();
 }
 
 @Override
-public void exit() {
-    // Logic exit
+public String exit() {
+    return "exisiting game";
 }
 
 // Tambahan penting untuk membandingkan Game secara isi, bukan referensi
