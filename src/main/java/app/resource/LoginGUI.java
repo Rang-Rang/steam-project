@@ -49,7 +49,6 @@ public class LoginGUI extends Application {
         headerBox.setAlignment(Pos.CENTER);
         headerBox.setSpacing(5);
 
-        // Form input
         TextField usernameField = new TextField();
         usernameField.setPromptText("Steam username");
         styleInput(usernameField);
@@ -70,12 +69,10 @@ public class LoginGUI extends Application {
         form.setSpacing(12);
         form.setMaxWidth(300);
 
-        // Responsif
         usernameField.prefWidthProperty().bind(Bindings.min(form.widthProperty(), root.widthProperty().multiply(0.7)));
         passwordField.prefWidthProperty().bind(usernameField.prefWidthProperty());
         loginBtn.prefWidthProperty().bind(usernameField.prefWidthProperty());
 
-        // Login logic
         loginBtn.setOnAction(e -> handleLogin(stage, usernameField.getText(), passwordField.getText(), msgLabel));
 
         root.getChildren().addAll(headerBox, form);
@@ -93,23 +90,22 @@ public class LoginGUI extends Application {
         }
 
         String user = username.trim();
-String pass = password.trim();
+        String pass = password.trim();
 
-try {
-    if (user.equals("admin") && pass.equals("123")) {
-        msgLabel.setText("");
-        SupportGUI.showSupportDashboard(stage); // ✅ Ganti ini
-    } else if (user.equals("user") && pass.equals("123")) {
-        msgLabel.setText("");
-        StoreGUI.showStore(stage); // Pastikan metode ini juga static (atau sesuaikan)
-    } else {
-        msgLabel.setText("Invalid credentials. Try again.");
-    }
-} catch (Exception ex) {
-    msgLabel.setText("An error occurred while logging in.");
-    ex.printStackTrace();
-}
-
+        try {
+            if (user.equals("admin") && pass.equals("123")) {
+                msgLabel.setText("");
+                SupportGUI.showSupportDashboard(stage);
+            } else if (user.equals("user") && pass.equals("123")) {
+                msgLabel.setText("");
+                StoreGUI.showStore(stage); 
+            } else {
+                msgLabel.setText("Invalid credentials. Try again.");
+            }
+        } catch (Exception ex) {
+            msgLabel.setText("An error occurred while logging in.");
+            ex.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

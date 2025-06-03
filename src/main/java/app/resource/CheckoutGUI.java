@@ -56,8 +56,8 @@ public class CheckoutGUI {
 
         Button confirmBtn = new Button("Confirm Purchase");
         confirmBtn.setStyle("-fx-background-color: #5c7e10; -fx-text-fill: white; -fx-font-size: 16px;");
+        // buat tambah semua game
         confirmBtn.setOnAction(e -> {
-            // Tambah semua game dari cart ke library
             for (Game game : customer.getCart()) {
                 if (!customer.getLibrary().contains(game)) {
                     customer.getLibrary().add(game);

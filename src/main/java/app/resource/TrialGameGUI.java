@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class TrialGameGUI {
     public static void showTrialPage(Game game, Stage primaryStage) {
-        Stage trialStage = new Stage(); // bisa diganti primaryStage kalau ingin 1 window
+        Stage trialStage = new Stage(); 
         trialStage.setTitle("Trial - " + game.getTitle());
 
         VBox layout = new VBox(20);

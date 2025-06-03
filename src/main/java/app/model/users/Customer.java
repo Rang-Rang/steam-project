@@ -39,7 +39,6 @@ public class Customer extends User implements RefundRequester {
         return refundRequests;
     }
 
-    // ✅ Revisi di sini
     public void removeFromLibrary(Game game) {
         library.removeIf(g -> g.getGameId().equals(game.getGameId()));
     }
@@ -61,12 +60,12 @@ public class Customer extends User implements RefundRequester {
         return allCustomers;
     }
     public static Customer getCustomerById(String id) {
-    for (Customer c : allCustomers) {
-        if (c.getUserId().equals(id)) {
-            return c;
+        for (Customer c : allCustomers) {
+            if (c.getUserId().equals(id)) {
+                return c;
+            }
         }
+        return null;
     }
-    return null;
-}
 
 }

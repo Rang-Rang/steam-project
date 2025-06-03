@@ -56,10 +56,9 @@ public class LibraryGUI {
         cartBtn.setOnAction(e -> CartGUI.showCartPage(customer, stage));
         libBtn.setOnAction(e -> {});
         logoutBtn.setOnAction(e -> {
-    Scene loginScene = new Scene(LoginGUI.getRoot(stage), 400, 350);
-    stage.setScene(loginScene);
-});
-
+            Scene loginScene = new Scene(LoginGUI.getRoot(stage), 400, 350);
+            stage.setScene(loginScene);
+        });
 
         TilePane tilePane = new TilePane();
         tilePane.setPadding(new Insets(20));
@@ -125,7 +124,6 @@ public class LibraryGUI {
             card.getChildren().addAll(imageView, title, downloadBtn, refundBtn);
             tilePane.getChildren().add(card);
         }
-
         ScrollPane scrollPane = new ScrollPane(tilePane);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background: #1b2838;");

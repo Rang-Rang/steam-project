@@ -22,79 +22,78 @@ public class CartGUI {
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setStyle("-fx-background-color: #1b2838;");
 
-            Label title = new Label("Your Cart");
-    title.setStyle("-fx-font-size: 28px; -fx-text-fill: white; -fx-font-weight: bold;");
+        Label title = new Label("Your Cart");
+        title.setStyle("-fx-font-size: 28px; -fx-text-fill: white; -fx-font-weight: bold;");
 
-    VBox gameList = new VBox(15);
-    gameList.setPadding(new Insets(10));
-    gameList.setAlignment(Pos.TOP_CENTER);
+        VBox gameList = new VBox(15);
+        gameList.setPadding(new Insets(10));
+        gameList.setAlignment(Pos.TOP_CENTER);
 
-    if (customer.getCart().isEmpty()) {
-        Label emptyLabel = new Label("Your cart is empty.");
-        emptyLabel.setStyle("-fx-text-fill: #c7d5e0; -fx-font-size: 16px;");
-        gameList.getChildren().add(emptyLabel);
-    } else {
-        for (Game game : customer.getCart()) {
-            HBox gameItem = new HBox(15);
-            gameItem.setPadding(new Insets(10));
-            gameItem.setStyle("-fx-background-color: #171a21; -fx-background-radius: 8;");
-            gameItem.setAlignment(Pos.CENTER_LEFT);
+        if (customer.getCart().isEmpty()) {
+            Label emptyLabel = new Label("Your cart is empty.");
+            emptyLabel.setStyle("-fx-text-fill: #c7d5e0; -fx-font-size: 16px;");
+            gameList.getChildren().add(emptyLabel);
+        } else {
+            for (Game game : customer.getCart()) {
+                HBox gameItem = new HBox(15);
+                gameItem.setPadding(new Insets(10));
+                gameItem.setStyle("-fx-background-color: #171a21; -fx-background-radius: 8;");
+                gameItem.setAlignment(Pos.CENTER_LEFT);
 
-            ImageView imageView = new ImageView(new Image(
-                    CartGUI.class.getClassLoader().getResource(game.getImagePath()).toExternalForm()));
-            imageView.setFitHeight(100);
-            imageView.setPreserveRatio(true);
+                ImageView imageView = new ImageView(new Image(
+                        CartGUI.class.getClassLoader().getResource(game.getImagePath()).toExternalForm()));
+                imageView.setFitHeight(100);
+                imageView.setPreserveRatio(true);
 
-            VBox infoBox = new VBox(5);
-            Label titleLabel = new Label(game.getTitle());
-            titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
-            Label priceLabel = new Label(String.format("Rp%,.0f", game.getPrice()));
-            priceLabel.setStyle("-fx-text-fill: #c7d5e0;");
+                VBox infoBox = new VBox(5);
+                Label titleLabel = new Label(game.getTitle());
+                titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+                Label priceLabel = new Label(String.format("Rp%,.0f", game.getPrice()));
+                priceLabel.setStyle("-fx-text-fill: #c7d5e0;");
 
-            Button removeBtn = new Button("Remove");
-            removeBtn.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white;");
-            removeBtn.setOnAction(e -> {
-                customer.getCart().remove(game);
-                showCartPage(customer, stage); // Refresh halaman
-            });
+                Button removeBtn = new Button("Remove");
+                removeBtn.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white;");
+                // buat hapus game dari cart
+                removeBtn.setOnAction(e -> {
+                    customer.getCart().remove(game);
+                    showCartPage(customer, stage);
+                });
 
-            infoBox.getChildren().addAll(titleLabel, priceLabel, removeBtn);
+                infoBox.getChildren().addAll(titleLabel, priceLabel, removeBtn);
 
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, Priority.ALWAYS);
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, Priority.ALWAYS);
 
-            gameItem.getChildren().addAll(imageView, infoBox, spacer);
-            gameList.getChildren().add(gameItem);
+                gameItem.getChildren().addAll(imageView, infoBox, spacer);
+                gameList.getChildren().add(gameItem);
+            }
         }
+
+        HBox buttonBox = new HBox(15);
+        buttonBox.setAlignment(Pos.CENTER);
+
+        Button checkoutBtn = new Button("Checkout");
+        checkoutBtn.setStyle("-fx-background-color: #5c7e10; -fx-text-fill: white; -fx-font-size: 14px;");
+        checkoutBtn.setOnAction(e -> {
+            CheckoutGUI.showCheckoutPage(customer, stage);
+        });
+
+        Button backBtn = new Button("← Back to Store");
+        backBtn.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white;");
+        backBtn.setOnAction(e -> {
+            StoreGUI.showStore(stage); 
+        });
+
+        buttonBox.getChildren().addAll(checkoutBtn, backBtn);
+
+        layout.getChildren().addAll(title, gameList, buttonBox);
+
+        ScrollPane scrollPane = new ScrollPane(layout);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background: #1b2838;");
+        scrollPane.setFitToHeight(true); 
+
+        stage.getScene().setRoot(scrollPane);
     }
-
-    HBox buttonBox = new HBox(15);
-    buttonBox.setAlignment(Pos.CENTER);
-
-    Button checkoutBtn = new Button("Checkout");
-    checkoutBtn.setStyle("-fx-background-color: #5c7e10; -fx-text-fill: white; -fx-font-size: 14px;");
-    checkoutBtn.setOnAction(e -> {
-        CheckoutGUI.showCheckoutPage(customer, stage);
-    });
-
-    Button backBtn = new Button("← Back to Store");
-    backBtn.setStyle("-fx-background-color: #2a475e; -fx-text-fill: white;");
-    backBtn.setOnAction(e -> {
-        StoreGUI.showStore(stage); // Ganti dengan pemanggilan ulang StoreGUI
-    });
-
-    buttonBox.getChildren().addAll(checkoutBtn, backBtn);
-
-    layout.getChildren().addAll(title, gameList, buttonBox);
-
-    ScrollPane scrollPane = new ScrollPane(layout);
-    scrollPane.setFitToWidth(true);
-    scrollPane.setStyle("-fx-background: #1b2838;");
-    scrollPane.setFitToHeight(true); // optional
-
-    stage.getScene().setRoot(scrollPane);
-}
-
-
 
 }
