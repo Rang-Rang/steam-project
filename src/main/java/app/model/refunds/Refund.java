@@ -7,13 +7,13 @@ public class Refund {
     private String userId;
     private String userName;
     private boolean approved;
-    private String reason; // ✅ Tambahkan ini
+    private String reason; 
 
     public Refund(Game game, String userId, String userName, String reason) {
         this.game = game;
         this.userId = userId;
         this.userName = userName;
-        this.reason = reason; // ✅ Inisialisasi
+        this.reason = reason;
         this.approved = false;
     }
 
@@ -38,7 +38,7 @@ public class Refund {
     }
 
     public String getReason() {
-        return reason; // ✅ Getter yang dibutuhkan di GUI
+        return reason; 
     }
 
     public void setReason(String reason) {

@@ -96,15 +96,13 @@ public class StoreGUI extends Application {
             Image bannerImg = new Image(bannerURL.toExternalForm());
             ImageView banner = new ImageView(bannerImg);
             banner.setPreserveRatio(true);
-            banner.setFitWidth(1000);
-            banner.fitWidthProperty().bind(scrollContent.widthProperty().subtract(40));
+            banner.setFitWidth(1000); // Ukuran tetap
             scrollContent.getChildren().add(banner);
         }
 
         VBox gameList = new VBox(15);
         gameList.setPadding(new Insets(20));
         gameList.setAlignment(Pos.TOP_CENTER);
-        gameList.setMaxWidth(1000);
 
         for (Game game : Game.getAvailableGames()) {
             gameList.getChildren().add(createGameItem(game));
@@ -113,7 +111,7 @@ public class StoreGUI extends Application {
         scrollContent.getChildren().add(gameList);
 
         ScrollPane scrollPane = new ScrollPane(scrollContent);
-        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToWidth(false); // Tidak responsif
         scrollPane.setStyle("-fx-background: #171a21;");
         root.setCenter(scrollPane);
     }
@@ -123,6 +121,7 @@ public class StoreGUI extends Application {
         box.setAlignment(Pos.CENTER_LEFT);
         box.setPadding(new Insets(10));
         box.setStyle("-fx-background-color: #1b2838; -fx-background-radius: 8;");
+        box.setPrefWidth(960); // Ukuran tetap
 
         Image image = new Image(getClass().getClassLoader().getResource(game.getImagePath()).toExternalForm());
         ImageView imageView = new ImageView(image);
