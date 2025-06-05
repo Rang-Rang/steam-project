@@ -19,18 +19,18 @@ public class SupportStaff extends User {
 
     private static List<SupportStaff> allStaff = new ArrayList<>();
 
-static {
-    allStaff.add(new SupportStaff("S001", "admin", "admin@email.com", "123", new ArrayList<>()));
-}
-
-public static SupportStaff findByCredential(String nameOrEmail, String pass) {
-    for (SupportStaff s : allStaff) {
-        if (s.isLoginMatch(nameOrEmail, pass)) {
-            return s;
-        }
+    static {
+        allStaff.add(new SupportStaff("S001", "admin", "admin@email.com", "123", new ArrayList<>()));
     }
-    return null;
-}
 
-    
+    public static SupportStaff findByCredential(String nameOrEmail, String pass) {
+        for (SupportStaff s : allStaff) {
+            if (s.isLoginMatch(nameOrEmail, pass)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+
 }
