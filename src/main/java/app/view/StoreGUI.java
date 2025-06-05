@@ -96,7 +96,7 @@ public class StoreGUI extends Application {
             Image bannerImg = new Image(bannerURL.toExternalForm());
             ImageView banner = new ImageView(bannerImg);
             banner.setPreserveRatio(true);
-            banner.setFitWidth(1000); // Ukuran tetap
+            banner.setFitWidth(1000);
             scrollContent.getChildren().add(banner);
         }
 
@@ -111,7 +111,7 @@ public class StoreGUI extends Application {
         scrollContent.getChildren().add(gameList);
 
         ScrollPane scrollPane = new ScrollPane(scrollContent);
-        scrollPane.setFitToWidth(false); // Tidak responsif
+        scrollPane.setFitToWidth(false);
         scrollPane.setStyle("-fx-background: #171a21;");
         root.setCenter(scrollPane);
     }
@@ -121,7 +121,7 @@ public class StoreGUI extends Application {
         box.setAlignment(Pos.CENTER_LEFT);
         box.setPadding(new Insets(10));
         box.setStyle("-fx-background-color: #1b2838; -fx-background-radius: 8;");
-        box.setPrefWidth(960); // Ukuran tetap
+        box.setPrefWidth(960); 
 
         Image image = new Image(getClass().getClassLoader().getResource(game.getImagePath()).toExternalForm());
         ImageView imageView = new ImageView(image);
