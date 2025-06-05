@@ -4,6 +4,7 @@ import app.model.steam.Game;
 import app.model.users.Customer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -75,7 +76,15 @@ public class CartGUI {
         Button checkoutBtn = new Button("Checkout");
         checkoutBtn.setStyle("-fx-background-color: #5c7e10; -fx-text-fill: white; -fx-font-size: 14px;");
         checkoutBtn.setOnAction(e -> {
-            CheckoutGUI.showCheckoutPage(customer, stage);
+            if (customer.getCart().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Peringatan");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Keranjang kosong. Tambahkan game terlebih dahulu.");
+                    alert.showAndWait();
+            } else {
+                CheckoutGUI.showCheckoutPage(customer, stage);
+            }
         });
 
         Button backBtn = new Button("← Back to Store");

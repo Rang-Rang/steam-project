@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -22,6 +23,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -67,7 +69,7 @@ public class LibraryGUI {
         tilePane.setPrefColumns(3);
         tilePane.setAlignment(Pos.TOP_CENTER);
 
-        for (Game game : customer.getLibrary()) {
+        for (Game game : customer.getLibrary().displayLibrary()) {
             VBox card = new VBox(10);
             card.setAlignment(Pos.CENTER);
             card.setPadding(new Insets(10));
@@ -92,14 +94,69 @@ public class LibraryGUI {
             Button downloadBtn = new Button("Download");
             downloadBtn.setStyle("-fx-background-color: #66c0f4; -fx-text-fill: black;");
             downloadBtn.setOnAction(ev -> {
-                downloadBtn.setText("Downloading...");
-                downloadBtn.setDisable(true);
-                PauseTransition pause = new PauseTransition(Duration.seconds(2));
-                pause.setOnFinished(f -> {
-                    downloadBtn.setText("Download");
-                    downloadBtn.setDisable(false);
-                });
-                pause.play();
+                if (downloadBtn.getText().equals("Download")) {
+                    // Download popup + progress bar
+                    Stage popupStage = new Stage();
+                    popupStage.initModality(Modality.APPLICATION_MODAL);
+                    popupStage.setTitle("Download");
+
+                    ProgressBar progressBar = new ProgressBar();
+                    progressBar.setPrefWidth(250);
+
+                    Label downloadLabel = new Label(game.download()); // gunakan method download()
+                    downloadLabel.setStyle("-fx-font-size: 14px;");
+
+                    VBox vbox = new VBox(10, downloadLabel, progressBar);
+                    vbox.setAlignment(Pos.CENTER);
+                    vbox.setPadding(new Insets(20));
+
+                    Scene scene = new Scene(vbox);
+                    popupStage.setScene(scene);
+                    popupStage.show();
+
+                    downloadBtn.setDisable(true);
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(f -> {
+                        popupStage.close();
+                        downloadBtn.setText("Play");
+                        downloadBtn.setDisable(false);
+                    });
+                    pause.play();
+
+                } else if (downloadBtn.getText().equals("Play")) {
+                    // Play popup
+                    Stage popupStage = new Stage();
+                    popupStage.initModality(Modality.APPLICATION_MODAL);
+                    popupStage.setTitle("Playing");
+
+                    Label label = new Label(game.play()); // gunakan method play()
+                    label.setStyle("-fx-font-size: 14px;");
+
+                    VBox vbox = new VBox(10, label);
+                    vbox.setAlignment(Pos.CENTER);
+                    vbox.setPadding(new Insets(20));
+
+                    Scene scene = new Scene(vbox, 250, 100);
+                    popupStage.setScene(scene);
+                    popupStage.show();
+
+                    downloadBtn.setText("Exit");
+
+                    popupStage.setOnCloseRequest(e -> {
+                        downloadBtn.setText("Play");
+                    });
+
+                } else if (downloadBtn.getText().equals("Exit")) {
+                    // Exit popup
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Exit Game");
+                    alert.setHeaderText(null);
+                    alert.setContentText(game.exit()); // gunakan method exit()
+                    alert.showAndWait();
+
+                    downloadBtn.setText("Play");
+                }
             });
 
             Button refundBtn = new Button("Refund");

@@ -10,21 +10,11 @@ public class Library {
     }
 
     public void addGame(Game game){
-        if(isOwned(game)){
-            System.out.println("Game Sudah Dimiliki.");
-        }else{
-            ownedGames.add(game);
-        }
+        ownedGames.add(game);
     }
 
     public void removeGame(Game game){
-        for (Game listGame : ownedGames) {
-            if (listGame.equals(game)) {
-                ownedGames.remove(game);
-            }else{
-                System.out.println("Game Tidak Ditemukan.");
-            }
-        }
+        ownedGames.remove(game);
     }
 
     public boolean isOwned(Game game){

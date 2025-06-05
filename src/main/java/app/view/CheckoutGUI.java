@@ -67,7 +67,7 @@ public class CheckoutGUI {
         boolean success = PaymentPopup.showPaymentDialog(customer, totalAmount);
         if (success) {
             for (Game game : customer.getCart()) {
-                customer.getLibrary().add(game);
+                customer.getLibrary().addGame(game);
                 Transaction trx = new Transaction("TX" + System.currentTimeMillis(), game, customer, null);
             }
 

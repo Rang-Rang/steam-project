@@ -6,6 +6,7 @@ import app.model.steam.Game;
 import app.model.users.Customer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -39,9 +40,17 @@ public class GameDetailGUI {
         addToCartBtn.setPrefWidth(180);
         addToCartBtn.setStyle("-fx-background-color: #5c7e10; -fx-text-fill: white; -fx-font-size: 15px;");
         addToCartBtn.setOnAction(e -> {
+        if(customer.getLibrary().isOwned(game)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informasi");
+            alert.setHeaderText(null);
+            alert.setContentText("Game sudah ada di library Anda.");
+            alert.showAndWait();
+        }else{
             if (!customer.getCart().contains(game)) {
                 customer.getCart().add(game);
             }
+        }    
             CartGUI.showCartPage(customer, primaryStage);
         });
 

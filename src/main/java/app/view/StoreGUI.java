@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import app.model.steam.Game;
+import app.model.steam.Library;
 import app.model.users.Customer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -35,7 +36,7 @@ public class StoreGUI extends Application {
         currentCustomer = Customer.getCustomerById("C001");
 
         if (currentCustomer == null) {
-            currentCustomer = new Customer("C001", "orang hitam legam", "test@email.com", "1234", new ArrayList<>(), new ArrayList<>());
+            currentCustomer = new Customer("C001", "orang hitam legam", "test@email.com", "1234", new Library(), new ArrayList<>());
         }
 
         buildNavbar(primaryStage);
