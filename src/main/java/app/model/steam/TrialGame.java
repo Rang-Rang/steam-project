@@ -2,11 +2,14 @@ package app.model.steam;
 
 public class TrialGame extends Game implements Playable{
     private int trialDuration;
-    private  String imagePath;
 
-    public TrialGame(String gameId, String title, double price, int trialDuration,  String imagePath) {
-        super(gameId, title, price, imagePath);
+    public TrialGame(String gameId, String title, double price, int trialDuration,  String imagePath, String desc) {
+        super(gameId, title, price, imagePath, desc);
         this.trialDuration = trialDuration;
+    }
+
+    public int getTrialDuration() {
+        return trialDuration;
     }
 
     public String download(){

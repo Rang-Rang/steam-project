@@ -3,6 +3,7 @@ package app.view;
 import java.util.Optional;
 
 import app.model.steam.Game;
+import app.model.steam.TrialGame;
 import app.model.users.Customer;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -10,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
@@ -86,16 +88,23 @@ public class LibraryGUI {
             imageView.setFitHeight(90);
             imageView.setPreserveRatio(true);
 
-            Label title = new Label(game.getTitle());
+            // Title with (Trial) if needed
+            String titleText = game.getTitle();
+            if (game instanceof TrialGame) {
+                titleText += " (Trial)";
+            }
+
+            Label title = new Label(titleText);
             title.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
             title.setWrapText(true);
             title.setTextAlignment(TextAlignment.CENTER);
 
-            Button downloadBtn = new Button("Download");
-            downloadBtn.setStyle("-fx-background-color: #66c0f4; -fx-text-fill: black;");
-            downloadBtn.setOnAction(ev -> {
-                if (downloadBtn.getText().equals("Download")) {
-                    // Download popup + progress bar
+            Button playableBtn = new Button("Download");
+            playableBtn.setStyle("-fx-background-color: #66c0f4; -fx-text-fill: black;");
+
+            playableBtn.setOnAction(ev -> {
+                if (playableBtn.getText().equals("Download")) {
+                    // Download popup
                     Stage popupStage = new Stage();
                     popupStage.initModality(Modality.APPLICATION_MODAL);
                     popupStage.setTitle("Download");
@@ -103,82 +112,123 @@ public class LibraryGUI {
                     ProgressBar progressBar = new ProgressBar();
                     progressBar.setPrefWidth(250);
 
-                    Label downloadLabel = new Label(game.download()); // gunakan method download()
-                    downloadLabel.setStyle("-fx-font-size: 14px;");
+                    String downloadText = (game instanceof TrialGame)
+                            ? ((TrialGame) game).download()
+                            : game.download();
+
+                    Label downloadLabel = new Label(downloadText);
+                    downloadLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
 
                     VBox vbox = new VBox(10, downloadLabel, progressBar);
                     vbox.setAlignment(Pos.CENTER);
                     vbox.setPadding(new Insets(20));
+                    vbox.setStyle("-fx-background-color: #1b2838;");
 
                     Scene scene = new Scene(vbox);
                     popupStage.setScene(scene);
                     popupStage.show();
 
-                    downloadBtn.setDisable(true);
+                    playableBtn.setDisable(true);
 
                     PauseTransition pause = new PauseTransition(Duration.seconds(2));
                     pause.setOnFinished(f -> {
                         popupStage.close();
-                        downloadBtn.setText("Play");
-                        downloadBtn.setDisable(false);
+                        playableBtn.setText("Play");
+                        playableBtn.setDisable(false);
                     });
                     pause.play();
 
-                } else if (downloadBtn.getText().equals("Play")) {
-                    // Play popup
+                } else if (playableBtn.getText().equals("Play")) {
+                    String playText;
+                    String timeLeftText = "";
+
+                    if (game instanceof TrialGame trialGame) {
+                        playText = trialGame.play();
+                        timeLeftText = "Time left: " + trialGame.getTrialDuration() + " mins";
+                    } else {
+                        playText = game.play();
+                    }
+
                     Stage popupStage = new Stage();
                     popupStage.initModality(Modality.APPLICATION_MODAL);
                     popupStage.setTitle("Playing");
 
-                    Label label = new Label(game.play()); // gunakan method play()
-                    label.setStyle("-fx-font-size: 14px;");
+                    Label labelPlay = new Label(playText);
+                    labelPlay.setStyle("-fx-font-size: 14px;");
 
-                    VBox vbox = new VBox(10, label);
+                    VBox vbox;
+                    if (!timeLeftText.isEmpty()) {
+                        Label labelTimeLeft = new Label(timeLeftText);
+                        labelTimeLeft.setStyle("-fx-font-size: 12px; -fx-text-fill: orange;");
+                        vbox = new VBox(10, labelPlay, labelTimeLeft);
+                    } else {
+                        vbox = new VBox(10, labelPlay);
+                    }
                     vbox.setAlignment(Pos.CENTER);
                     vbox.setPadding(new Insets(20));
 
-                    Scene scene = new Scene(vbox, 250, 100);
+                    Scene scene = new Scene(vbox, 250, 120);
                     popupStage.setScene(scene);
                     popupStage.show();
 
-                    downloadBtn.setText("Exit");
+                    playableBtn.setText("Exit");
 
                     popupStage.setOnCloseRequest(e -> {
-                        downloadBtn.setText("Play");
+                        playableBtn.setText("Play");
                     });
+                } else if (playableBtn.getText().equals("Exit")) {
+                    String exitText = (game instanceof TrialGame)
+                            ? ((TrialGame) game).exit()
+                            : game.exit();
 
-                } else if (downloadBtn.getText().equals("Exit")) {
-                    // Exit popup
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Exit Game");
                     alert.setHeaderText(null);
-                    alert.setContentText(game.exit()); // gunakan method exit()
+                    alert.setContentText(exitText);
                     alert.showAndWait();
 
-                    downloadBtn.setText("Play");
+                    playableBtn.setText("Play");
                 }
             });
 
-            Button refundBtn = new Button("Refund");
-            refundBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
-            refundBtn.setOnAction(ev -> {
-                TextInputDialog dialog = new TextInputDialog();
-                dialog.setTitle("Refund Request");
-                dialog.setHeaderText("Enter the reason for refund:");
-                dialog.setContentText("Reason:");
-
-                Optional<String> result = dialog.showAndWait();
-                result.ifPresent(reason -> {
-                    customer.addRefundRequest(game, reason);
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Refund Request");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Refund request submitted and awaiting support approval.");
-                    alert.showAndWait();
+            Button refundBtn = new Button();
+            if (game instanceof TrialGame) {
+                refundBtn.setText("Remove");
+                refundBtn.setStyle("-fx-background-color: #e67e22; -fx-text-fill: white;");
+                refundBtn.setOnAction(ev -> {
+                    Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirm.setTitle("Remove Trial");
+                    confirm.setHeaderText(null);
+                    confirm.setContentText("Are you sure you want to remove this trial game from your library?");
+                    Optional<ButtonType> result = confirm.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        customer.getLibrary().removeGame(game);
+                        tilePane.getChildren().remove(card); // remove card from GUI
+                    }
                 });
-            });
+            } else {
+                refundBtn.setText("Refund");
+                refundBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+                refundBtn.setOnAction(ev -> {
+                    TextInputDialog dialog = new TextInputDialog();
+                    dialog.setTitle("Refund Request");
+                    dialog.setHeaderText("Enter the reason for refund:");
+                    dialog.setContentText("Reason:");
 
-            card.getChildren().addAll(imageView, title, downloadBtn, refundBtn);
+                    Optional<String> result = dialog.showAndWait();
+                    result.ifPresent(reason -> {
+                        customer.addRefundRequest(game, reason);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Refund Request");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Refund request submitted and awaiting support approval.");
+                        alert.showAndWait();
+                    });
+                });
+}
+
+
+            card.getChildren().addAll(imageView, title, playableBtn, refundBtn);
             tilePane.getChildren().add(card);
         }
         ScrollPane scrollPane = new ScrollPane(tilePane);
