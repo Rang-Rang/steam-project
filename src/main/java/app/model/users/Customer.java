@@ -18,7 +18,7 @@ public class Customer extends User implements RefundRequester {
         super(userId, name, email, password);
         this.library = library;
         this.cart = cart;
-        allCustomers.add(this);
+        allCustomers.add(this); // ✅ Penambahan hanya di sini
     }
 
     public void addRefundRequest(Game game, String reason) {
@@ -82,14 +82,15 @@ public class Customer extends User implements RefundRequester {
         return null;
     }
 
+    // ✅ Revisi di sini: tidak menambahkan duplikat ke allCustomers
     static {
-        allCustomers.add(new Customer(
+        new Customer(
             "C001",
             "user",
             "user@email.com",
             "123",
             new Library(),
             new ArrayList<>()
-        ));
+        );
     }
 }

@@ -11,7 +11,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
@@ -88,7 +87,6 @@ public class LibraryGUI {
             imageView.setFitHeight(90);
             imageView.setPreserveRatio(true);
 
-            // Title with (Trial) if needed
             String titleText = game.getTitle();
             if (game instanceof TrialGame) {
                 titleText += " (Trial)";
@@ -104,7 +102,6 @@ public class LibraryGUI {
 
             playableBtn.setOnAction(ev -> {
                 if (playableBtn.getText().equals("Download")) {
-                    // Download popup
                     Stage popupStage = new Stage();
                     popupStage.initModality(Modality.APPLICATION_MODAL);
                     popupStage.setTitle("Download");
@@ -200,16 +197,26 @@ public class LibraryGUI {
                     confirm.setTitle("Remove Trial");
                     confirm.setHeaderText(null);
                     confirm.setContentText("Are you sure you want to remove this trial game from your library?");
-                    Optional<ButtonType> result = confirm.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    Optional<javafx.scene.control.ButtonType> result = confirm.showAndWait();
+                    if (result.isPresent() && result.get() == javafx.scene.control.ButtonType.OK) {
                         customer.getLibrary().removeGame(game);
-                        tilePane.getChildren().remove(card); // remove card from GUI
+                        tilePane.getChildren().remove(card);
                     }
                 });
             } else {
                 refundBtn.setText("Refund");
                 refundBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
                 refundBtn.setOnAction(ev -> {
+                    if (customer.getRefundRequests().stream()
+                            .anyMatch(r -> r.getGame().equals(game) && !r.isApproved() && !r.isRejected())) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Refund Already Requested");
+                        alert.setHeaderText(null);
+                        alert.setContentText("You already requested a refund for this game.");
+                        alert.showAndWait();
+                        return;
+                    }
+
                     TextInputDialog dialog = new TextInputDialog();
                     dialog.setTitle("Refund Request");
                     dialog.setHeaderText("Enter the reason for refund:");
@@ -218,6 +225,7 @@ public class LibraryGUI {
                     Optional<String> result = dialog.showAndWait();
                     result.ifPresent(reason -> {
                         customer.addRefundRequest(game, reason);
+                        refundBtn.setDisable(true);
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Refund Request");
                         alert.setHeaderText(null);
@@ -225,12 +233,12 @@ public class LibraryGUI {
                         alert.showAndWait();
                     });
                 });
-}
-
+            }
 
             card.getChildren().addAll(imageView, title, playableBtn, refundBtn);
             tilePane.getChildren().add(card);
         }
+
         ScrollPane scrollPane = new ScrollPane(tilePane);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background: #1b2838;");
