@@ -68,7 +68,6 @@ public class InvoiceGUI {
             makeInfoRow("Payment Method", "Credit Card")
         );
 
-        // Total
         HBox totalRow = new HBox();
         totalRow.setAlignment(Pos.CENTER_RIGHT);
         totalRow.setPadding(new Insets(10, 0, 0, 0));
@@ -76,7 +75,6 @@ public class InvoiceGUI {
         total.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
         totalRow.getChildren().add(total);
 
-        // Countdown Label
         Label countdownLabel = new Label();
         countdownLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 12px;");
         countdownLabel.setAlignment(Pos.CENTER);
@@ -91,7 +89,6 @@ public class InvoiceGUI {
 
         stage.setScene(new Scene(scrollPane, 600, 500));
 
-        // Start countdown
         startCountdown(stage, countdownLabel);
     }
 
