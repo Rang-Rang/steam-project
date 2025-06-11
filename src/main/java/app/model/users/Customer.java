@@ -18,7 +18,7 @@ public class Customer extends User implements RefundRequester {
         super(userId, name, email, password);
         this.library = library;
         this.cart = cart;
-        allCustomers.add(this); // ✅ Penambahan hanya di sini
+        allCustomers.add(this); 
     }
 
     public void addRefundRequest(Game game, String reason) {
