@@ -2,6 +2,8 @@ package app.view;
 
 import app.model.steam.Game;
 import app.model.users.Customer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -62,7 +65,7 @@ public class InvoiceGUI {
         invoiceBox.getChildren().addAll(
             makeInfoRow("Invoice", "INV" + System.currentTimeMillis()),
             makeInfoRow("Date Issued", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy @ HH:mm"))),
-            makeInfoRow("Payment Method", "Credit Card")  // Bisa diganti dinamis jika ada
+            makeInfoRow("Payment Method", "Credit Card")
         );
 
         // Total
@@ -73,7 +76,13 @@ public class InvoiceGUI {
         total.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
         totalRow.getChildren().add(total);
 
-        VBox content = new VBox(10, greeting, thankYou, info, invoiceBox, totalRow);
+        // Countdown Label
+        Label countdownLabel = new Label();
+        countdownLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 12px;");
+        countdownLabel.setAlignment(Pos.CENTER);
+        countdownLabel.setPadding(new Insets(20, 0, 0, 0));
+
+        VBox content = new VBox(10, greeting, thankYou, info, invoiceBox, totalRow, countdownLabel);
         content.setPadding(new Insets(10));
 
         ScrollPane scrollPane = new ScrollPane(content);
@@ -81,6 +90,26 @@ public class InvoiceGUI {
         scrollPane.setStyle("-fx-background: #1b2838;");
 
         stage.setScene(new Scene(scrollPane, 600, 500));
+
+        // Start countdown
+        startCountdown(stage, countdownLabel);
+    }
+
+    private static void startCountdown(Stage stage, Label label) {
+        final int[] secondsLeft = {5};
+
+        label.setText("Returning to home in " + secondsLeft[0] + " seconds...");
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            secondsLeft[0]--;
+            if (secondsLeft[0] > 0) {
+                label.setText("Returning to home in " + secondsLeft[0] + " seconds...");
+            } else {
+                StoreGUI.showStore(stage);
+            }
+        }));
+        timeline.setCycleCount(5);
+        timeline.play();
     }
 
     private static HBox makeInfoRow(String label, String value) {
