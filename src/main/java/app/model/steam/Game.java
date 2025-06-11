@@ -94,9 +94,4 @@ public class Game implements Playable {
         Game other = (Game) obj;
         return Objects.equals(gameId, other.gameId);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(gameId);
-    }
 }
