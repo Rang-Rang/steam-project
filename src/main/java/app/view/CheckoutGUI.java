@@ -1,5 +1,6 @@
 package app.view;
-
+import java.util.ArrayList;
+import java.util.List;
 import app.model.steam.Game;
 import app.model.steam.Transaction;
 import app.model.users.Customer;
@@ -16,6 +17,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+
 
 public class CheckoutGUI {
     public static void showCheckoutPage(Customer customer, Stage stage) {
@@ -66,20 +69,17 @@ public class CheckoutGUI {
 
         boolean success = PaymentPopup.showPaymentDialog(customer, totalAmount);
         if (success) {
-            for (Game game : customer.getCart()) {
+            List<Game> purchasedGames = new ArrayList<>(customer.getCart());
+
+            for (Game game : purchasedGames) {
                 customer.getLibrary().addGame(game);
                 Transaction trx = new Transaction("TX" + System.currentTimeMillis(), game, customer, null);
             }
 
             customer.getCart().clear();
 
-            Alert done = new Alert(Alert.AlertType.INFORMATION);
-            done.setTitle("Berhasil");
-            done.setHeaderText(null);
-            done.setContentText("Pembayaran berhasil. Game telah masuk library.");
-            done.showAndWait();
-
-            stage.getScene().setRoot(StoreGUI.getRoot());
+            // Menampilkan halaman invoice
+            InvoiceGUI.showInvoice(customer, purchasedGames, totalAmount, stage);
         } else {
             Alert fail = new Alert(Alert.AlertType.ERROR);
             fail.setTitle("Gagal");
