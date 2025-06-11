@@ -42,10 +42,12 @@ public class LibraryGUI {
         Label profileLabel = new Label(customer.getName());
         styleNavLabel(profileLabel);
 
+        Button strBtn = new Button("Store");
         Button cartBtn = new Button("Cart");
         Button libBtn = new Button("Library");
         Button logoutBtn = new Button("Logout");
 
+        styleNavButton(strBtn);
         styleNavButton(cartBtn);
         styleNavButton(libBtn);
         styleNavButton(logoutBtn);
@@ -53,9 +55,10 @@ public class LibraryGUI {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        navbar.getChildren().addAll(profileLabel, spacer, cartBtn, libBtn, logoutBtn);
+        navbar.getChildren().addAll(profileLabel, spacer, strBtn, cartBtn, libBtn, logoutBtn);
         root.setTop(navbar);
 
+        strBtn.setOnAction(e -> StoreGUI.showStore(stage));
         cartBtn.setOnAction(e -> CartGUI.showCartPage(customer, stage));
         libBtn.setOnAction(e -> {});
         logoutBtn.setOnAction(e -> {
