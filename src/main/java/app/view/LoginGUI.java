@@ -37,7 +37,7 @@ public class LoginGUI extends Application {
         root.setSpacing(20);
         root.setStyle("-fx-background-color: #1b2838;");
 
-        // Title
+        
         Label title = new Label("SIGN IN");
         title.setTextFill(Color.web("#c7d5e0"));
         title.setStyle("-fx-font-weight: bold;");
@@ -51,7 +51,7 @@ public class LoginGUI extends Application {
         headerBox.setAlignment(Pos.CENTER);
         headerBox.setSpacing(5);
 
-        // Form input
+        
         TextField usernameField = new TextField();
         usernameField.setPromptText("Steam username or email");
         styleInput(usernameField);
@@ -72,12 +72,12 @@ public class LoginGUI extends Application {
         form.setSpacing(12);
         form.setMaxWidth(300);
 
-        // Responsif
+        
         usernameField.prefWidthProperty().bind(Bindings.min(form.widthProperty(), root.widthProperty().multiply(0.7)));
         passwordField.prefWidthProperty().bind(usernameField.prefWidthProperty());
         loginBtn.prefWidthProperty().bind(usernameField.prefWidthProperty());
 
-        // Login logic
+        
         loginBtn.setOnAction(e -> handleLogin(stage, usernameField.getText(), passwordField.getText(), msgLabel));
 
         root.getChildren().addAll(headerBox, form);

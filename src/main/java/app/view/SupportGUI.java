@@ -28,7 +28,6 @@ public class SupportGUI {
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1b2838;");
 
-        // ==== NAVBAR START ====
         HBox navbar = new HBox(20);
         navbar.setPadding(new Insets(10));
         navbar.setStyle("-fx-background-color: #1b2838;");
@@ -49,7 +48,6 @@ public class SupportGUI {
 
         navbar.getChildren().addAll(supportLabel, spacer, logoutBtn);
         root.setTop(navbar);
-        // ==== NAVBAR END ====
 
         VBox contentBox = new VBox(20);
         contentBox.setPadding(new Insets(20));
@@ -64,7 +62,6 @@ public class SupportGUI {
 
         for (Customer customer : customers) {
             for (Refund refund : new ArrayList<>(customer.getRefundRequests())) {
-                // Hanya tampilkan yang belum diproses
                 if (refund.isApproved() || refund.isRejected()) continue;
 
                 Game game = refund.getGame();
@@ -90,14 +87,14 @@ public class SupportGUI {
                 Button approveBtn = new Button("Approve");
                 approveBtn.setStyle("-fx-background-color: #66c0f4; -fx-text-fill: black;");
                 approveBtn.setOnAction(e -> {
-                    refund.setApproved(true);
-                    customer.removeFromLibrary(game); 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Refund Approved");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Refund approved and game removed from library.");
-                    alert.showAndWait();
-                    showSupportDashboard(stage); 
+                refund.setApproved(true);
+                customer.removeFromLibrary(game); 
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Refund Approved");
+                alert.setHeaderText(null);
+                alert.setContentText("Refund approved and game removed from library.");
+                alert.showAndWait();
+                showSupportDashboard(stage); 
                 });
 
                 Button rejectBtn = new Button("Reject");

@@ -82,7 +82,6 @@ public class Customer extends User implements RefundRequester {
         return null;
     }
 
-    // ✅ Revisi di sini: tidak menambahkan duplikat ke allCustomers
     static {
         new Customer(
             "C001",
@@ -92,5 +91,6 @@ public class Customer extends User implements RefundRequester {
             new Library(),
             new ArrayList<>()
         );
+        
     }
 }
